@@ -1,17 +1,56 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
-import Message from './Message.jsx';
 import MessageList from './MessageList.jsx';
-import NavBar from './NavBar.jsx';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentUser: {name: "Bob"}, //if no name, anon
+      messages: [
+        {
+          id: 1,
+          username: "Bob",
+          content: "Has anyone seen my marbles?",
+        },
+        {
+          id: 2,
+          username: "Anonymous",
+          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
+        }
+      ]
+    }
+  }
+
+  // for eventual integration of the username field
+  newUser(text) {
+    const newUser = {
+      name: text
+    };
+    this.setState({
+      messages: newUser
+    });
+  }
+
+  addMessage(text) {
+    const newMessage = {
+      id: Math.random(),
+      content: text,
+      username: this.state.currentUser.name
+    };
+    const newMessages = this.state.messages.concat(newMessage);
+    this.setState({
+      messages: newMessages
+    });
+  }
+
+
   render() {
     return (
       <div>
-          <NavBar></NavBar>
-          <Message></Message>
-          <MessageList></MessageList>
-          <ChatBar></ChatBar>
+          <MessageList messages={ this.state.messages }></MessageList>
+          <ChatBar currentUser={ this.state.currentUser } addNewMessage={ this.addMessage.bind(this) } setNewUser={ this.newUser.bind(this) }></ChatBar>
       </div>
     );
   }
