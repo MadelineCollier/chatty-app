@@ -39,9 +39,18 @@ class App extends Component {
       content: text,
       username: this.state.currentUser.name
     };
-    const newMessages = this.state.messages.concat(newMessage);
-    this.setState({
-      messages: newMessages
+    // const newMessages = this.state.messages.concat(newMessage);
+    // this.setState({
+    //   messages: newMessages
+    // });
+    this.socket.send(JSON.stringify(newMessage));
+  }
+
+  componentDidMount() {
+    this.socket = new WebSocket("ws://localhost:3001");
+    this.socket.onopen = ((evt) => {
+      console.log('Established connection!', evt);
+      this.socket.send("hello server");
     });
   }
 
