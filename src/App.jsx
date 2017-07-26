@@ -7,51 +7,44 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"}, //if no name, anon
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
-    }
+      currentUser: { name: "Bob" }, //if no name, anon
+      messages: []
+    };
   }
 
   // for eventual integration of the username field
-  newUser(text) {
+  addNewUser(text) {
     const newUser = {
       name: text
     };
-    this.setState({
-      messages: newUser
-    });
+    // this.setState({
+    //   messages: newUser
+    // });
+    console.log("text:", text);
+    console.log("newUser:", newUser);
+    this.socket.send(JSON.stringify(newUser));
   }
 
   addMessage(text) {
     const newMessage = {
-      id: Math.random(),
       content: text,
       username: this.state.currentUser.name
     };
-    // const newMessages = this.state.messages.concat(newMessage);
-    // this.setState({
-    //   messages: newMessages
-    // });
     this.socket.send(JSON.stringify(newMessage));
   }
 
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
-    this.socket.onopen = ((evt) => {
-      console.log('Established connection!', evt);
-      this.socket.send("hello server");
+
+    this.socket.onopen = ((event) => {
+      console.log('Established connection!', event);
     });
+
+    this.socket.onmessage = (event) => {
+      console.log('new message event:', event);
+      const newMessages = this.state.messages.concat(JSON.parse(event.data));
+      this.setState({ messages: newMessages });
+    }
   }
 
 
@@ -59,7 +52,7 @@ class App extends Component {
     return (
       <div>
           <MessageList messages={ this.state.messages }></MessageList>
-          <ChatBar currentUser={ this.state.currentUser } addNewMessage={ this.addMessage.bind(this) } setNewUser={ this.newUser.bind(this) }></ChatBar>
+          <ChatBar currentUser={ this.state.currentUser } addNewMessage={ this.addMessage.bind(this) } setNewUser={ this.addNewUser.bind(this) }></ChatBar>
       </div>
     );
   }
