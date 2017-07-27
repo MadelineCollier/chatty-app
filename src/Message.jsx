@@ -6,13 +6,13 @@ class Message extends Component {
     switch (this.props.message.type) {
       case 'incomingNotification':
         messageContainer =
-          <div className="message system">{ this.props.message.content }</div>;
+          <div className='message system'>{ this.props.message.content }</div>;
         break;
       default:
         messageContainer =
-          <div className="message">
-            <span className="message-username">{ this.props.message.username }</span>
-            <span className="message-content">{ this.props.message.content }</span>
+          <div className='message'>
+            <span className='message-username'>{ this.props.message.username }</span>
+            <span className='message-content'>{ this.props.message.content }</span>
           </div>;
         break;
     }
