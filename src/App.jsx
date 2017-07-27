@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Bobnonymous"}, //if no name, anon
+      currentUser: { name: "Anonymous"}, //if no name, anon
       messages: [],
       clientSize: 1
     };
