@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
+import NavBar from './NavBar.jsx';
 
 class App extends Component {
 
@@ -8,7 +9,8 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: { name: "Bobnonymous"}, //if no name, anon
-      messages: []
+      messages: [],
+      clientSize: 1
     };
   }
 
@@ -51,8 +53,17 @@ class App extends Component {
 
     this.socket.onmessage = (event) => {
       console.log('new event:', event);
-      const newMessages = this.state.messages.concat(JSON.parse(event.data));
-      this.setState({ messages: newMessages });
+      const eventObject = JSON.parse(event.data);
+      console.log("event object:", eventObject);
+      switch (eventObject.type) {
+        case 'clientUpdate':
+          this.setState({ clientSize: eventObject.content });
+          break;
+        default:
+          const newMessages = this.state.messages.concat(eventObject);
+          this.setState({ messages: newMessages });
+          break;
+      }
     }
   }
 
@@ -60,8 +71,9 @@ class App extends Component {
   render() {
     return (
       <div>
-          <MessageList messages={ this.state.messages }></MessageList>
-          <ChatBar currentUser={ this.state.currentUser } addNewMessage={ this.addMessage.bind(this) } setNewUser={ this.addNewUser.bind(this) }></ChatBar>
+        <NavBar clients={ this.state.clientSize } />
+        <MessageList messages={ this.state.messages }></MessageList>
+        <ChatBar currentUser={ this.state.currentUser } addNewMessage={ this.addMessage.bind(this) } setNewUser={ this.addNewUser.bind(this) }></ChatBar>
       </div>
     );
   }
