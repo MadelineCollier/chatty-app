@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   isUserMessage(type) {
-    if (type === "user message") {
+    if (type === "postMessage") {
       return true;
     } else {
       return false;
