@@ -7,30 +7,39 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: { name: "Bob" }, //if no name, anon
+      currentUser: { name: "Bobnonymous"}, //if no name, anon
       messages: []
     };
   }
 
   // for eventual integration of the username field
-  addNewUser(text) {
-    const newUser = {
-      name: text
-    };
-    // this.setState({
-    //   messages: newUser
-    // });
-    console.log("text:", text);
-    console.log("newUser:", newUser);
-    this.socket.send(JSON.stringify(newUser));
+  addNewUser(username) {
+    this.setState({ currentUser: { name: username } });
   }
 
-  addMessage(text) {
-    const newMessage = {
-      content: text,
-      username: this.state.currentUser.name
-    };
-    this.socket.send(JSON.stringify(newMessage));
+  isUserMessage(type) {
+    if (type === "user message") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  addMessage(text, type) {
+    if (this.isUserMessage(type)) {
+      const newUserMessage = {
+        content: text,
+        username: this.state.currentUser.name,
+        type: type
+      };
+      this.socket.send(JSON.stringify(newUserMessage));
+    } else {
+      const newSystemMessage = {
+        content: text,
+        type: type
+      };
+      this.socket.send(JSON.stringify(newSystemMessage));
+    }
   }
 
   componentDidMount() {
@@ -41,7 +50,7 @@ class App extends Component {
     });
 
     this.socket.onmessage = (event) => {
-      console.log('new message event:', event);
+      console.log('new event:', event);
       const newMessages = this.state.messages.concat(JSON.parse(event.data));
       this.setState({ messages: newMessages });
     }
