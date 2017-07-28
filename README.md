@@ -1,7 +1,7 @@
 Chatty App
 =====================
 
-A slack clone built to using ReactJS and WebSockets.
+A slack clone built using ReactJS and WebSockets.
 
 ### Finished Product
 Users can live chat, see how many other users are online, and change their username at will.
@@ -18,7 +18,6 @@ Clone Chatty App.
 
 ```
 git clone git@github.com:MadelineCollier/chatty-app.git
-
 ```
 
 Install the dependencies and start the server.
