@@ -1,18 +1,24 @@
-React Boilerplate
+Chatty App
 =====================
 
-A minimal and light dev environment for ReactJS.
+A slack clone built to using ReactJS and WebSockets.
+
+### Finished Product
+Users can live chat, see how many other users are online, and change their username at will.
+
+!["Chatty homepage"](https://github.com/MadelineCollier/chatty-app/blob/master/docs/homepage.png?raw=true)
+
+!["Users can live chat, and change their username"](https://github.com/MadelineCollier/chatty-app/blob/master/docs/username-change-example.png?raw=true)
+
+!["Number of online users is displayed top left"](https://github.com/MadelineCollier/chatty-app/blob/master/docs/active-users-example.png?raw=true)
 
 ### Usage
 
-Clone the boilerplate and create your own git repo.
+Clone Chatty App.
 
 ```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
+git clone git@github.com:MadelineCollier/chatty-app.git
+
 ```
 
 Install the dependencies and start the server.
@@ -23,23 +29,15 @@ npm start
 open http://localhost:3000
 ```
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
 
 ### Dependencies
 
-* React
-* Webpack
+* [React](https://facebook.github.io/react/)
+* [Webpack](https://webpack.github.io/)
 * [babel-loader](https://github.com/babel/babel-loader)
 * [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* [ReactDOM](https://facebook.github.io/react/docs/react-dom.htmlr)
+
+### Chatty App Server
+The server for Chatty is located on a separate repository [over here.](https://github.com/MadelineCollier/chatty-server) In order to run Chatty as desired, you will need to clone this repository as well.
+### Thanks and Happy Chatting!
